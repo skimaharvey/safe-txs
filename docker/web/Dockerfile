@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED=1
 # `pysha3` is way faster than `pycryptodome` for CPython
 ENV ETH_HASH_BACKEND=pysha3
 
-COPY requirements.txt ./
+COPY requirements.txt safe_eth_py-5.4.3-py3-none-any.whl ./
 RUN set -ex \
 	&& buildDeps=" \
 		build-essential \
@@ -20,6 +20,7 @@ RUN set -ex \
     && apt-get install -y --no-install-recommends $buildDeps tmux postgresql-client \
     && pip install -U --no-cache-dir wheel setuptools pip \
     && pip install --no-cache-dir -r requirements.txt \
+    && pip install -U safe_eth_py-5.4.3-py3-none-any.whl \
     && apt-get purge -y --auto-remove $buildDeps \
     && rm -rf /var/lib/apt/lists/* \
     && find /usr/local \
