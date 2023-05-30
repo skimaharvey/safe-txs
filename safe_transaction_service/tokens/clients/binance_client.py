@@ -11,20 +11,15 @@ class BinanceClient:  # pragma: no cover
     def __init__(self):
         self.http_session = requests.Session()
 
-    def _get_price(self, symbol: str) -> float:
-        url = f"https://api.binance.com/api/v3/avgPrice?symbol={symbol}"
+    def _get_price(self, symbol: str):
+        url = "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=LYXE-USDT"
+
         try:
             response = self.http_session.get(url, timeout=10)
-            api_json = response.json()
-            if not response.ok:
-                logger.warning("Cannot get price from url=%s", url)
-                raise CannotGetPrice(api_json.get("msg"))
-
-            price = float(api_json["price"])
-            if not price:
-                raise CannotGetPrice(f"Price from url={url} is {price}")
-            return price
+            result = response.json()
+            return float(result["data"]["price"])
         except (ValueError, IOError) as e:
+            logger.warning("Cannot get price from url=%s", url)
             raise CannotGetPrice from e
 
     def get_ada_usd_price(self) -> float:
