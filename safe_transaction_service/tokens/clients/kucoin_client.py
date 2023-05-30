@@ -12,7 +12,7 @@ class KucoinClient:
         self.http_session = requests.Session()
 
     def _get_price(self, symbol: str):
-        url = f"https://api.kucoin.com/api/v1/market/orderbook/level1?symbol={symbol}"
+        url = "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=LYXE-USDT"
 
         try:
             response = self.http_session.get(url, timeout=10)
@@ -27,7 +27,7 @@ class KucoinClient:
         :return: current USD price for ETH Coin
         :raises: CannotGetPrice
         """
-        return self._get_price("ETH-USDT")
+        return self._get_price("LYXE-USDT")
 
     def get_aurora_usd_price(self) -> float:
         """
